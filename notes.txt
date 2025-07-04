@@ -1,0 +1,15 @@
+--to safe all the dependency create a file named using command
+> pip freeze > requirements.txt
+
+(only once at start of the project)
+>django-admin startproject chai-aur-django
+--command will ask from user, email and password
+
+--start of any project django has user models / use migrations command to remove error in the terminal
+error: 
+--first command: >python manage.py migrate
+--second command: >python manage.py makemigrations
+
+----------------------------------------------------
+add configurations like : 
+import os in settings.py
