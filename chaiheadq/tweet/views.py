@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from .models import Tweet
-from .forms import TweetForm
+from .forms import TweetForm, UserRegisterationForm
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
 
 # Create your views here.
 
@@ -13,6 +14,18 @@ def tweet_list(request):
     tweets = Tweet.objects.all().order_by('-created_at')
     return render(request, 'tweet_list.html', { 'tweets' : tweets })
 
+def search(request):
+    print("GET data:", request.GET)
+    query = request.GET.get('q')
+    if query:
+        tweets = Tweet.objects.filter(text__icontains=query)
+    else:
+        tweets = Tweet.objects.all()
+
+    print("tweets:", tweets)
+    return render(request, 'search.html', {'tweets': tweets})
+     
+        
 
 @login_required # this is a decorator
 def tweet_create(request):
@@ -60,5 +73,18 @@ def tweet_delete(request, tweet_id):
    
    
    
-# def register(request):
+def register(request):
+    if request.method == 'POST':
+        form  =UserRegisterationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            # cleaned_data means gives you the clean and safe values submitted in a form.
+            user.set_password(form.cleaned_data['password1']) # take password and settin git
+            user.save()
+            login(request, user)
+            return redirect('tweet_list')
+    else:
+        form = UserRegisterationForm()
+        
+    return render(request, 'registration/register.html', { 'form' : form })
     

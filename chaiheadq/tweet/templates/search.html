@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}Tweet Search{% endblock %}
+
+{% block content %}
+  {% if request.GET.q %}
+    <h2>Search results for "{{ request.GET.q }}"</h2>
+  {% endif %}
+
+  {% if tweets %}
+    <div class="row row-cols-1 row-cols-md-2 g-4 mt-3">
+      {% for tweet in tweets %}
+        <div class="col">
+          <div class="card">
+            {% if tweet.photo %}
+              <img src="{{ tweet.photo.url }}" class="card-img-top" alt="Tweet Image">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ tweet.user.username }}</h5>
+              <p class="card-text">{{ tweet.text }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No tweets found.</p>
+  {% endif %}
+{% endblock %}

@@ -18,11 +18,16 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.contrib.auth.urls import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     # below url give control from chaiheadq/tweet/urls.py to the tweet app
     # This allows the tweet app to handle its own URLs, such as displaying tweets or creating
     path('tweet/', include('tweet.urls')),  # Include the tweet app's URLs
+    
+    
+    #  login and logout redirects
+    path('accounts/', include('django.contrib.auth.urls')),
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

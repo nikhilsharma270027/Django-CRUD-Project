@@ -52,10 +52,21 @@
               <a class="nav-link disabled" aria-disabled="true">Disabled</a>
             </li>
           </ul>
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-            <button class="btn btn-outline-success" type="submit">Search</button>
+          <form class="d-flex" role="search" method="GET" action="{% url 'search' %}">
+  <input class="form-control me-2" type="search" name="q" placeholder="Search tweets..." aria-label="Search" />
+  <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
+
+          <a href="{% url 'tweet_list' %}" class="btn btn-primary">Tweet Home</a>
+          {% if user.is_authenticated %}
+          <form action="{% url 'logout' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger p-4">Logout</button>
           </form>
+          {%  else %}
+          <a href="{% url 'register' %}" class="btn btn-primary">Register</a>
+          <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+          {% endif %}
         </div>
       </div>
     </nav>
